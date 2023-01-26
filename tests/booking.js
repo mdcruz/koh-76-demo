@@ -10,6 +10,9 @@ export function setup() {
   testSetup()
 }
 // describe block has issues with async operations https://github.com/mochajs/mocha/issues/2975
+// getting this error since it's trying to execute the second describe block already        
+// ✗ Exception raised "GoError: clicking on "//a[text()=\"Admin panel\"]": getting new document handle: getting document element handle: 
+// execution context changed; most likely because of a navigation"
 export default async function () {
   const browser = chromium.launch({ headless: false })
   const context = browser.newContext()
