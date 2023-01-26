@@ -17,11 +17,11 @@ export class Homepage {
   }
 
   submitForm() {
-    const { name, email, contactNumber, subject, description } = bookingData
+    const { name, email, phone, subject, description } = bookingData
 
     this.nameField.type(name)
     this.emailField.type(email)
-    this.phoneField.type(contactNumber)
+    this.phoneField.type(phone)
     this.subjectField.type(subject)
     this.descField.type(description)
     this.submitButton.click()
