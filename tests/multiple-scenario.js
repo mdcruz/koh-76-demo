@@ -3,6 +3,7 @@ import { expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.0/index.js'
 import http from 'k6/http'
 
 import { Homepage } from '../pages/homepage.js'
+import { AdminPanel } from '../pages/admin-panel.js'
 import { bookingData } from '../data/booking-data.js'
 import { testSetup } from './setup.js'
 
@@ -22,6 +23,12 @@ export const options = {
       vus: 1,
       iterations: 1,
     },
+    login: {
+      executor: 'shared-iterations',
+      exec: 'login',
+      vus: 1,
+      iterations: 1
+    }
   },
 }
 
@@ -30,7 +37,10 @@ export function setup() {
 }
 
 export async function booking() {
-  const browser = chromium.launch({ headless: false })
+  const browser = chromium.launch({ 
+    headless: false,
+    slowMo: '500ms'
+  })
   const context = browser.newContext()
   const page = context.newPage()
 
@@ -38,7 +48,27 @@ export async function booking() {
     const homepage = new Homepage(page)
     await homepage.goto()
     homepage.submitForm()
+
     expect(homepage.getVerificationMessage()).to.contain(name)
+  } finally {
+    page.close()
+    browser.close()
+  }
+}
+
+export async function login() {
+  const browser = chromium.launch({ 
+    headless: false,
+    slowMo: '500ms'
+  })
+  const context = browser.newContext()
+  const page = context.newPage()
+
+  try {
+    const adminPanel = new AdminPanel(page)
+    await adminPanel.login()
+    
+    expect(adminPanel.getLogoutButton()).to.equal('Logout')
   } finally {
     page.close()
     browser.close()

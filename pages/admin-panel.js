@@ -11,8 +11,8 @@ export class AdminPanel {
     this.message = page.locator('[data-testid="message"]')
   }
 
-  login() {
-    this.adminPanel.click()
+  async login() {
+    await this.page.goto('https://automationintesting.online/#/admin', { waitUntil: 'networkidle' })
     this.username.type('admin')
     this.password.type('password')
     this.submitButton.click()

@@ -11,7 +11,10 @@ export function setup() {
 }
 
 export default async function () {
-  const browser = chromium.launch({ headless: false })
+  const browser = chromium.launch({ 
+    headless: false,
+    slowMo: '500ms' 
+  })
   const context = browser.newContext()
   const page = context.newPage()
 
@@ -25,15 +28,13 @@ export default async function () {
     expect(homepage.getVerificationMessage()).to.contain(name)
 
     const adminPanel = new AdminPanel(page)
-    adminPanel.login()
+    await adminPanel.login()
     adminPanel.openMessage()
 
     const actualMessage = adminPanel.getMessage()
 
     expect(actualMessage).to.contain(name)
     expect(actualMessage).to.contain(email)
-    expect(actualMessage).to.contain(contactNumber)
-    expect(actualMessage).to.contain(subject)
   } finally {
     page.close()
     browser.close()

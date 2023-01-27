@@ -13,7 +13,7 @@ export class Homepage {
   }
 
   async goto() {
-    await this.page.goto('https://automationintesting.online/')
+    await this.page.goto('https://automationintesting.online/', { waitUntil: 'networkidle' })
   }
 
   submitForm() {

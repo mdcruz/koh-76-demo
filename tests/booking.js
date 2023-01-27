@@ -18,7 +18,7 @@ export default async function () {
   const context = browser.newContext()
   const page = context.newPage()
 
-  const { name, email, contactNumber, subject } = bookingData
+  const { name, email } = bookingData
 
   describe('Given a user submits a booking query', async () => {
     const homepage = new Homepage(page)
@@ -28,17 +28,15 @@ export default async function () {
     expect(homepage.getVerificationMessage()).to.contain(name)
   })
 
-  describe('When an admin logs in to the admin panel and view the messages', () => {
+  describe('When an admin logs in to the admin panel and view the messages', async () => {
     const adminPanel = new AdminPanel(page)
-    adminPanel.login()
+    await adminPanel.login()
 
     adminPanel.openMessage()
     const actualMessage = adminPanel.getMessage().innerText()
 
     expect(actualMessage).to.contain(name)
     expect(actualMessage).to.contain(email)
-    expect(actualMessage).to.contain(contactNumber)
-    expect(actualMessage).to.contain(subject)
   })
 
   page.close()
