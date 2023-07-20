@@ -12,20 +12,20 @@ export class AdminPanel {
   }
 
   async login() {
-    await this.page.goto('https://automationintesting.online/#/admin', { waitUntil: 'networkidle' })
+    await this.page.goto('https://automationintesting.online/#/admin')
     this.username.type('admin')
     this.password.type('password')
-    this.submitButton.click()
+    await this.submitButton.click()
   }
 
   getLogoutButton() {
     return this.logoutButton.innerText()
   }
 
-  openMessage() {
-    this.messageButton.click()
-    this.contactName.click()
-    this.page.screenshot({ path:'screenshots/booking-form.png' })
+  async openMessage() {
+    await this.messageButton.click()
+    await this.contactName.click()
+    this.page.screenshot({ path: 'screenshots/booking-form.png' })
   }
 
   getMessage() {

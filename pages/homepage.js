@@ -16,7 +16,7 @@ export class Homepage {
     await this.page.goto('https://automationintesting.online/', { waitUntil: 'networkidle' })
   }
 
-  submitForm() {
+  async submitForm() {
     const { name, email, phone, subject, description } = bookingData
 
     this.nameField.type(name)
@@ -24,7 +24,7 @@ export class Homepage {
     this.phoneField.type(phone)
     this.subjectField.type(subject)
     this.descField.type(description)
-    this.submitButton.click()
+    await this.submitButton.click()
   }
 
   getVerificationMessage() {

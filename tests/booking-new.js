@@ -1,4 +1,4 @@
-import { chromium } from 'k6/x/browser'
+import { chromium } from 'k6/experimental/browser'
 import { expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.0/index.js'
 
 import { AdminPanel } from '../pages/admin-panel.js'
@@ -11,9 +11,9 @@ export function setup() {
 }
 
 export default async function () {
-  const browser = chromium.launch({ 
+  const browser = chromium.launch({
     headless: false,
-    slowMo: '500ms' 
+    slowMo: '500ms'
   })
   const context = browser.newContext()
   const page = context.newPage()
@@ -23,13 +23,13 @@ export default async function () {
   try {
     const homepage = new Homepage(page)
     await homepage.goto()
-    homepage.submitForm()
+    await homepage.submitForm()
 
     expect(homepage.getVerificationMessage()).to.contain(name)
 
     const adminPanel = new AdminPanel(page)
     await adminPanel.login()
-    adminPanel.openMessage()
+    await adminPanel.openMessage()
 
     const actualMessage = adminPanel.getMessage()
 

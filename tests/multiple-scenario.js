@@ -37,7 +37,7 @@ export function setup() {
 }
 
 export async function booking() {
-  const browser = chromium.launch({ 
+  const browser = chromium.launch({
     headless: false,
     slowMo: '500ms'
   })
@@ -47,7 +47,7 @@ export async function booking() {
   try {
     const homepage = new Homepage(page)
     await homepage.goto()
-    homepage.submitForm()
+    await homepage.submitForm()
 
     expect(homepage.getVerificationMessage()).to.contain(name)
   } finally {
@@ -57,7 +57,7 @@ export async function booking() {
 }
 
 export async function login() {
-  const browser = chromium.launch({ 
+  const browser = chromium.launch({
     headless: false,
     slowMo: '500ms'
   })
@@ -67,7 +67,7 @@ export async function login() {
   try {
     const adminPanel = new AdminPanel(page)
     await adminPanel.login()
-    
+
     expect(adminPanel.getLogoutButton()).to.equal('Logout')
   } finally {
     page.close()
